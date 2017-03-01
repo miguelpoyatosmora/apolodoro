@@ -3,8 +3,8 @@
 Simple skeleton for elasticsearch+spring+angularjs app to test docker compose
 
 
-# Building the project
+## Building the project
 ./build.sh
 
-# Running the project
+## Running the project
 ./run.sh
