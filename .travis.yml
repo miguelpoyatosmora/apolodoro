@@ -1,7 +1,5 @@
 language: java
 
-script: mvn clean verify
-
 sudo: required
 
 services:
@@ -10,9 +8,7 @@ services:
 before_install:
 
   - ./build.sh
-
-  - docker-compose pull
-  - docker-compose build
-  - docker-compose up
-
+  - ./run.sh
   - docker ps
+
+script: ./test.sh
