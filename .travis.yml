@@ -4,7 +4,9 @@ services:
   - docker
 
 before_install:
+
   - build.sh
+
   - docker-compose pull
   - docker-compose build
   - docker-compose start
