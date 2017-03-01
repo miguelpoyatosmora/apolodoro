@@ -1,1 +1,9 @@
 language: java
+
+before_install:
+
+  - docker-compose pull
+  - docker-compose build
+  - docker-compose start
+
+  - docker ps
