@@ -1,5 +1,10 @@
-docker build .
-docker run -d -p 127.0.0.1:9200:9200 cbed42902ce0
+# Apolodoro
+
+Simple skeleton for elasticsearch+spring+angularjs app to test docker compose
 
 
-docker run -d -p 127.0.0.1:9200:9200 
+# Building the project
+./build.sh
+
+# Running the project
+./run.sh
