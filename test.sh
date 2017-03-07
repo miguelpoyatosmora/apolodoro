@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd apolodoro-integration-tests
-mvn verify -T 8
+mvn test -T 8
