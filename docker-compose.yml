@@ -10,14 +10,10 @@ backend:
   links:
    - elasticsearch
 
-#TODO: configure volumes so changes are reflected in the image
-#  volumes:
-#   - ./target/:/etc/apolodoro
-
 nginx:
   image: "nginx:latest"
   volumes:
-   - ./apolodoro-frontend:/usr/share/nginx/html
+   - ./apolodoro-react-frontend/build:/usr/share/nginx/html
   ports:
    - "80:80"
   environment:
