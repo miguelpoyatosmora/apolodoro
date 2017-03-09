@@ -3,9 +3,7 @@
 
 echo "Instantiating elasticsearch"
 
-/docker-entrypoint.sh $1 &
-
-java -jar /etc/apolodoro/apolodoro-web-0.1.0.jar &
+/docker-entrypoint.sh $1
 
 
 

@@ -21,7 +21,7 @@ import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 
-public class LoginTest {
+public class LoginIT {
 
     @Test
     public void test1() throws MalformedURLException {

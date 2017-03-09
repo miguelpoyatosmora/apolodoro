@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class ApplicationTests {
+public class ApplicationTest {
 
 
     ObjectMapper mapper = new ObjectMapper();
@@ -40,13 +40,6 @@ public class ApplicationTests {
 
 	@MockBean
     private Client client;
-
-	@Test
-	public void homePageLoads() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/", String.class);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
 
 	@Test
 	public void userEndpointProtected() {

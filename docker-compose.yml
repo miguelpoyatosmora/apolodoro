@@ -1,5 +1,5 @@
 elasticsearch:
-  build: ./apolodoro-backend/.
+  build: ./apolodoro-elasticsearch/.
   ports:
    - "9200:9200"
 

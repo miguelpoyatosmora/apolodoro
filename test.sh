@@ -1,4 +1,3 @@
 #!/bin/bash
 
-cd apolodoro-integration-tests
-mvn test -T 8
+mvn test-compile failsafe:integration-test failsafe:verify -T 8

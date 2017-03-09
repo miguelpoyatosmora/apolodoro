@@ -31,45 +31,48 @@ public class AuthenticationConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(new AbstractUserDetailsAuthenticationProvider() {
-            @Override
-            protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+        auth.authenticationProvider(new MyAbstractUserDetailsAuthenticationProvider());
+    }
 
-                String providedUsername = userDetails.getUsername();
+    private class MyAbstractUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-                com.apolodoro.backend.model.User storedUser = dao.executeUserRequest(providedUsername);
+        @Override
+        protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+
+            String providedUsername = userDetails.getUsername();
+
+            com.apolodoro.backend.model.User storedUser = dao.executeUserRequest(providedUsername);
 
 
-                if (!providedUsername.equals(storedUser.getUsername())) {
-                    throw new UsernameNotFoundException(providedUsername);
-                }
-
-
-                if (!userDetails.getPassword().equals(storedUser.getPassword())){
-                    throw new UsernameNotFoundException(providedUsername);
-                }
-
-                LOG.info(providedUsername + " authenticated");
-
+            if (!providedUsername.equals(storedUser.getUsername())) {
+                throw new UsernameNotFoundException(providedUsername);
             }
 
-            @Override
-            protected UserDetails retrieveUser(String providedUsername, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
 
-                com.apolodoro.backend.model.User user = dao.executeUserRequest(providedUsername);
-
-                if (user.getRoles() == null) {
-                    throw new DisabledException("No role specified for user " + user.getUsername());
-                }
-
-                List<SimpleGrantedAuthority> authorities = user.getRoles()
-                        .stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-
-                return new User(user.getUsername(), user.getPassword(), authorities);
+            if (!userDetails.getPassword().equals(storedUser.getPassword())){
+                throw new UsernameNotFoundException(providedUsername);
             }
-        });
+
+            LOG.info(providedUsername + " authenticated");
+
+        }
+
+        @Override
+        protected UserDetails retrieveUser(String providedUsername, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+
+            com.apolodoro.backend.model.User user = dao.executeUserRequest(providedUsername);
+
+            if (user.getRoles() == null) {
+                throw new DisabledException("No role specified for user " + user.getUsername());
+            }
+
+            List<SimpleGrantedAuthority> authorities = user.getRoles()
+                    .stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+
+            return new User(user.getUsername(), user.getPassword(), authorities);
+        }
     }
 }
 
