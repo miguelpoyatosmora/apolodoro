@@ -8,6 +8,7 @@ services:
 before_install:
 
   - ./build.sh
+  - docker ps
   - ./run.sh
   - docker ps
 

@@ -59,7 +59,7 @@ public class LoginIT {
 //        element.submit();
 
         // Check the title of the page
-        assertEquals("Hello AngularJS", driver.getTitle());
+        assertEquals("React App", driver.getTitle());
 
         // Google's search is rendered dynamically with JavaScript.
         // Wait for the page to load, timeout after 10 seconds
