@@ -2,7 +2,7 @@
 
 echo "Building npm dependencies"
 cd apolodoro-react-frontend
-npm run build               || exit 1
+npm run build
 cd ..
 
 echo "Building maven dependencies"
