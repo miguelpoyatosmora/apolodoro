@@ -2,9 +2,9 @@
 
 echo "Building npm dependencies"
 cd apolodoro-react-frontend
-npm install
+npm install 
 npm install -g react-scripts
-npm run build
+npm run build --no-warnings
 cd ..
 
 echo "Building maven dependencies"
