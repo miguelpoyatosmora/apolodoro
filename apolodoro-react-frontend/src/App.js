@@ -4,7 +4,7 @@ import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import LoginPage from './containers/LoginPage';
-import SignUpPage from './containers/SignUpPage';
+//import SignUpPage from './containers/SignUpPage';
 
 
 class App extends Component {

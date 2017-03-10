@@ -6,7 +6,6 @@ services:
   - docker
 
 before_install:
-  - unset CI
   - ./build.sh
   - ./run.sh
 
