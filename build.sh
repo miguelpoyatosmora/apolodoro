@@ -2,6 +2,7 @@
 
 echo "Building npm dependencies"
 cd apolodoro-react-frontend
+npm install
 npm install -g react-scripts
 npm run build
 cd ..
