@@ -2,13 +2,13 @@
 
 echo "Building npm dependencies"
 cd apolodoro-react-frontend
-npm install                     &&
-npm install -g react-scripts    &&
-npm run build --no-warnings     || exit 1
+npm install                                                 &&
+react-scripts --version || npm install -g react-scripts     &&
+npm run build --no-warnings                                 || exit 1
 cd ..
 
 echo "Building maven dependencies"
-mvn clean package -T 8      || exit 1
+mvn clean package -T 8                                      || exit 1
 
 echo "Building docker containers"
-docker-compose build        || exit 1
+docker-compose build                                        || exit 1
