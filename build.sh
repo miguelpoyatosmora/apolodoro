@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo "Building npm dependencies"
-cd apolodoro-react-frontend &&
-npm run build               &&
-cd ..                       || exit 1
+cd apolodoro-react-frontend
+npm run build               || exit 1
+cd ..
 
 echo "Building maven dependencies"
 mvn clean package -T 8      || exit 1
