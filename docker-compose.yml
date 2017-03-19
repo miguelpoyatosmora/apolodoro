@@ -1,35 +1,95 @@
-elasticsearch:
-  build: ./apolodoro-elasticsearch/.
-  ports:
-   - "9200:9200"
+version: '2'
 
-backend:
-  build: ./apolodoro-backend/.
-  ports:
-   - "8080:8080"
-  links:
-   - elasticsearch
+services:
 
-nginx:
-  image: "nginx:latest"
-  volumes:
-   - ./apolodoro-react-frontend/build:/usr/share/nginx/html
-  ports:
-   - "80:80"
-  environment:
-   - NGINX_HOST=localhost
-   - NGINX_PORT=80
-  command: /bin/bash -c "nginx -g 'daemon off;'"
-  links:
-   - backend
-
-selenium:
-    image: selenium/standalone-firefox
+  elasticsearch1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    container_name: elasticsearch1
     environment:
-        # Required to avoid container startup hanging sometimes in
-        # some environments
-        JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom
-    links:
-        - nginx
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - max_map_count=262144
+      - xpack.security.enabled=false
+      - transport.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 1g
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./apolodoro-elasticsearch/esdata1:/usr/share/elasticsearch/data
     ports:
-        - "4444:4444"
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - host
+
+#
+#  elasticsearch2:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.1
+#    environment:
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - max_map_count=262144
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - "discovery.zen.ping.unicast.hosts=elasticsearch1"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#      nofile:
+#        soft: 65536
+#        hard: 65536
+#    mem_limit: 1g
+#    cap_add:
+#      - IPC_LOCK
+#    volumes:
+#      - esdata2:/usr/share/elasticsearch/data
+#    networks:
+#      - host
+#
+  backend:
+    build: ./apolodoro-backend/.
+    links:
+     - elasticsearch1
+    networks:
+      - host
+
+  nginx:
+
+    build:
+      context: . # To serve static content it should access other modules
+      dockerfile: ./apolodoro-nginx/Dockerfile
+
+    ports:
+     - "80:80"
+    environment:
+     - NGINX_HOST=localhost
+     - NGINX_PORT=80
+    links:
+     - backend
+    networks:
+      - host
+
+  selenium:
+      image: selenium/standalone-firefox
+      environment:
+          # Required to avoid container startup hanging sometimes in
+          # some environments
+          JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom
+      links:
+          - nginx
+      ports:
+          - "4444:4444"
+      networks:
+          - host
+
+networks:
+  host:
+    driver: bridge
